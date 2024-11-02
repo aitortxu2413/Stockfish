@@ -1,0 +1,52 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stockfish engine</title>
+    <link rel='stylesheet' href='{% static 'styles/main.css' %}' >
+  </head>
+  <body>
+    <h1>Stockfish engine</h1>
+    <section>
+      <svg viewBox="0 0 100 100" class="coordinates"><text x="0.75" y="3.5" font-size="2.8" class="coordinate-light">8</text><text x="0.75" y="15.75" font-size="2.8" class="coordinate-dark">7</text><text x="0.75" y="28.25" font-size="2.8" class="coordinate-light">6</text><text x="0.75" y="40.75" font-size="2.8" class="coordinate-dark">5</text><text x="0.75" y="53.25" font-size="2.8" class="coordinate-light">4</text><text x="0.75" y="65.75" font-size="2.8" class="coordinate-dark">3</text><text x="0.75" y="78.25" font-size="2.8" class="coordinate-light">2</text><text x="0.75" y="90.75" font-size="2.8" class="coordinate-dark">1</text><text x="10" y="99" font-size="2.8" class="coordinate-dark">a</text><text x="22.5" y="99" font-size="2.8" class="coordinate-light">b</text><text x="35" y="99" font-size="2.8" class="coordinate-dark">c</text><text x="47.5" y="99" font-size="2.8" class="coordinate-light">d</text><text x="60" y="99" font-size="2.8" class="coordinate-dark">e</text><text x="72.5" y="99" font-size="2.8" class="coordinate-light">f</text><text x="85" y="99" font-size="2.8" class="coordinate-dark">g</text><text x="97.5" y="99" font-size="2.8" class="coordinate-light">h</text></svg>
+
+      <div class='piece wr square-1'></div>
+      <div class='piece wn square-2'></div>
+      <div class='piece wb square-3'></div>
+      <div class='piece wq square-4'></div>
+      <div class='piece wk square-5'></div>
+      <div class='piece wb square-6'></div>
+      <div class='piece wn square-7'></div>
+      <div class='piece wr square-8'></div>
+      <div class='piece wp square-9'></div>
+      <div class='piece wp square-10'></div>
+      <div class='piece wp square-11'></div>
+      <div class='piece wp square-12'></div>
+      <div class='piece wp square-13'></div>
+      <div class='piece wp square-14'></div>
+      <div class='piece wp square-15'></div>
+      <div class='piece wp square-16'></div>
+      <div class='piece bp square-49'></div>
+      <div class='piece bp square-50'></div>
+      <div class='piece bp square-51'></div>
+      <div class='piece bp square-52'></div>
+      <div class='piece bp square-53'></div>
+      <div class='piece bp square-54'></div>
+      <div class='piece bp square-55'></div>
+      <div class='piece bp square-56'></div>
+      <div class='piece br square-57'></div>
+      <div class='piece bn square-58'></div>
+      <div class='piece bb square-59'></div>
+      <div class='piece bq square-60'></div>
+      <div class='piece bk square-61'></div>
+      <div class='piece bb square-62'></div>
+      <div class='piece bn square-63'></div>
+      <div class='piece br square-64'></div>
+    </section>
+
+    <script src='{% static 'js/index.js' %}' >
+  </body>
+</html>
