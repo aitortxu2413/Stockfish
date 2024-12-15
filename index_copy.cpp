@@ -9,7 +9,7 @@
 using namespace std;
 
 vector<pair<pair<int, int>, pair<int, int>>> pawn_movements(char board[8][8], int x, int y) {
-	vector<pair<pair<int, int>, pair<int, int>>> movements;
+	vector<pair<pair<int, int>, pair<int, int>>> movements {{{-1, -1}, {-1, -1}}};
 
 	char piece = board[x][y];
 
@@ -41,7 +41,7 @@ vector<pair<pair<int, int>, pair<int, int>>> pawn_movements(char board[8][8], in
 		}
 	}
 
-		// cout << (elem.first.first == 0 && elem.first.second == 0 && elem.second.first == 0 && elem.second.first == 0) << endl;
+	// cout << (elem.first.first == 0 && elem.first.second == 0 && elem.second.first == 0 && elem.second.first == 0) << endl;
 
 	// cout << "Atenciooon!!!" << endl;
 	// for (const auto& elem : movements) {
@@ -66,15 +66,11 @@ vector<pair<pair<int, int>, pair<int, int>>> generate_movements(char board[8][8]
 			if (white_turn && isupper(board[x][y])) {
 				if (board[x][y] == 'P') {
 					auto pawn_moves = pawn_movements(board, x, y);
-					if (!pawn_moves.empty()) {
-						movements.insert(movements.end(), pawn_moves.begin(), pawn_moves.end());
-					}
+					movements.insert(movements.end(), pawn_moves.begin(), pawn_moves.end());
 				}	else if (!white_turn && islower(board[x][y])) {
 					if (board[x][y] == 'p') {
 						auto pawn_moves = pawn_movements(board, x, y);
-						if (!pawn_moves.empty()) {
-							movements.insert(movements.end(), pawn_moves.begin(), pawn_moves.end());
-						}
+						movements.insert(movements.end(), pawn_moves.begin(), pawn_moves.end());
 					}
 				}
 			}
