@@ -3,6 +3,7 @@
 #include <string>
 #include <limits>
 #include <cctype>
+#include <unordered_map>
 using namespace std;
 
 typedef pair<int, int> Movimiento;
@@ -96,19 +97,10 @@ vector<pair<Movimiento, Movimiento>> generar_movimientos(const Tablero &tablero,
 int evaluar_tablero(const Tablero &tablero)
 {
   int valor = 0;
-  const int valores_piezas[128] = {0};
-  const_cast<int *>(valores_piezas)['P'] = 1;
-  const_cast<int *>(valores_piezas)['N'] = 3;
-  const_cast<int *>(valores_piezas)['B'] = 3;
-  const_cast<int *>(valores_piezas)['R'] = 5;
-  const_cast<int *>(valores_piezas)['Q'] = 9;
-  const_cast<int *>(valores_piezas)['K'] = 100;
-  const_cast<int *>(valores_piezas)['p'] = -1;
-  const_cast<int *>(valores_piezas)['n'] = -3;
-  const_cast<int *>(valores_piezas)['b'] = -3;
-  const_cast<int *>(valores_piezas)['r'] = -5;
-  const_cast<int *>(valores_piezas)['q'] = -9;
-  const_cast<int *>(valores_piezas)['k'] = -100;
+  unordered_map<char, int> valores_piezas = {
+		{'P', 1}, {'N', 3}, {'B', 3}, {'R', 5}, {'Q', 9}, {'K', 100},
+		{'p', -1}, {'n', -3}, {'b', -3}, {'r', -5}, {'q', -9}, {'k', -100}
+	};
 
   for (const auto &fila : tablero)
   {
