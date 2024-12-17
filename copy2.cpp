@@ -4,7 +4,6 @@
 #include <limits>
 #include <cctype>
 #include <unordered_map>
-#include <omp.h> // OpenMP: multihilos para mejora de rendimiento en minimax
 using namespace std;
 
 typedef pair<int, int> Movimiento;
@@ -120,7 +119,7 @@ pair<int, pair<Movimiento, Movimiento>> minimax(const Tablero &tablero, int prof
 {
   if (profundidad == 0)
   {
-    return {evaluar_tablero(tablero), {}};  // Caso base: evaluar el tablero
+    return {evaluar_tablero(tablero), {}};
   }
 
   pair<Movimiento, Movimiento> mejor_movimiento;
@@ -128,35 +127,23 @@ pair<int, pair<Movimiento, Movimiento>> minimax(const Tablero &tablero, int prof
   if (turno_blanco)
   {
     int max_eval = numeric_limits<int>::min();
-    bool terminado = false;  // Bandera para terminar la búsqueda
-
-    // Paralelizar este bucle para explorar los movimientos en paralelo
-    #pragma omp parallel for shared(terminado) reduction(max : max_eval)
-    for (int i = 0; i < generar_movimientos(tablero, true).size(); ++i)
+    for (const auto &movimiento : generar_movimientos(tablero, true))
     {
-      if (terminado)  // Si se ha marcado como terminado, los hilos deben dejar de trabajar
-        continue;
-
-      auto movimiento = generar_movimientos(tablero, true)[i];
       Tablero copia_tablero = tablero;
       auto [origen, destino] = movimiento;
       copia_tablero[destino.first][destino.second] = copia_tablero[origen.first][origen.second];
       copia_tablero[origen.first][origen.second] = '.';
 
       int evaluacion = minimax(copia_tablero, profundidad - 1, alfa, beta, false).first;
-
-      #pragma omp critical
       if (evaluacion > max_eval)
       {
         max_eval = evaluacion;
         mejor_movimiento = movimiento;
       }
-
       alfa = max(alfa, evaluacion);
       if (beta <= alfa)
       {
-        #pragma omp atomic write
-        terminado = true;  // Marcamos como terminado
+        break;
       }
     }
     return {max_eval, mejor_movimiento};
@@ -164,35 +151,23 @@ pair<int, pair<Movimiento, Movimiento>> minimax(const Tablero &tablero, int prof
   else
   {
     int min_eval = numeric_limits<int>::max();
-    bool terminado = false;  // Bandera para terminar la búsqueda
-
-    // Paralelizar este bucle para explorar los movimientos en paralelo
-    #pragma omp parallel for shared(terminado) reduction(min : min_eval)
-    for (int i = 0; i < generar_movimientos(tablero, false).size(); ++i)
+    for (const auto &movimiento : generar_movimientos(tablero, false))
     {
-      if (terminado)  // Si se ha marcado como terminado, los hilos deben dejar de trabajar
-        continue;
-
-      auto movimiento = generar_movimientos(tablero, false)[i];
       Tablero copia_tablero = tablero;
       auto [origen, destino] = movimiento;
       copia_tablero[destino.first][destino.second] = copia_tablero[origen.first][origen.second];
       copia_tablero[origen.first][origen.second] = '.';
 
       int evaluacion = minimax(copia_tablero, profundidad - 1, alfa, beta, true).first;
-
-      #pragma omp critical
       if (evaluacion < min_eval)
       {
         min_eval = evaluacion;
         mejor_movimiento = movimiento;
       }
-
       beta = min(beta, evaluacion);
       if (beta <= alfa)
       {
-        #pragma omp atomic write
-        terminado = true;  // Marcamos como terminado
+        break;
       }
     }
     return {min_eval, mejor_movimiento};
@@ -221,8 +196,7 @@ void aplicar_movimiento(Tablero &tablero, const pair<Movimiento, Movimiento> &mo
 
 int main()
 {
-  omp_set_num_threads(4);
-  int profundidad = 10;
+  int profundidad = 1;
   bool turno_blanco = true;
 
   cout << "Tablero inicial:" << endl;
